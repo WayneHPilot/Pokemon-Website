@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
     <title>Pokédex - Home</title>
 </head>
 <body>
@@ -11,11 +12,11 @@
         <div class="logo-container" onclick="location.href=`index.html`">
             <img src="Pokéball.png" alt="Pokéball Logo" id="logo"></a>
         </div>
-        <a href="index.html">Home</a>
         <a href="about.html">About Me</a>
         <a href="pokedex.html">Pokédex</a>
         <a href="gallery.html">Gallery</a>
         <a href="contact.html">Contact Me</a>
+        <button class="theme-toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
     </nav>
     <div class="container">
         <h1>Welcome to the Pokédex</h1>
@@ -24,5 +25,7 @@
         <p>Use the navigation bar to explore Pokémon, learn about the author, or contact us</p>
         <p>The Pokéball returns you back to this page!</p>
     </div>
+    <br>
+    <img src="pikachu.gif" id="gif">
 </body>
 </html>

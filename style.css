@@ -16,6 +16,48 @@ body {
     justify-content: flex-start;
 }
 
+/* Default Style */
+body.default-theme {
+    background: linear-gradient(to bottom, #ff1a1a 0%, #ffffff 50%, #000000 100%);
+    color: #333;
+}
+
+/* Fire Theme */
+body.fire-theme {
+    background: linear-gradient(to bottom, #ff7f7f, #ff1a1a);
+    color: #fff;
+}
+
+/* Water Theme */
+body.water-theme {
+    background: linear-gradient(to bottom, #87ceeb, #1e90ff);
+    color: #fff;
+}
+
+/* Grass Theme */
+body.grass-theme {
+    background: linear-gradient(to bottom, #98fb98, #228b22);
+    color: #fff;
+}
+
+/* Button Styling */
+.theme-toggle-btn {
+    background-color: #ffcc00;
+    color: #333;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    background-color: #ff9900;
+}
+
+
 /* ==========================
    Navigation Bar Styling
    ========================== */
@@ -113,6 +155,7 @@ button:hover {
     margin: 0;
     padding: 0;
     background-color: white;
+    color: #000000;
     border: 1px solid #ccc;
     position: absolute;
     z-index: 1;
@@ -121,6 +164,7 @@ button:hover {
     overflow-y: auto;
     display: none;  /* Initially hidden */
 }
+
 
 /* Optional: Fade out effect when the list disappears */
 #searchResults.fade-out {
@@ -141,13 +185,145 @@ button:hover {
 /* ==========================
    Pokémon Gallery
    ========================== */
-   .pokemonGallery {
+.pokemonGallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px 40px; /* 20px vertical gap, 40px horizontal gap */
     margin: 20px auto;
     max-width: 1200px;
 }
+
+.pokemon-sprites {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 10px;
+    gap: 0px;
+    width: 150px;
+    height: 150px;
+}
+
+.pokemon-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;      /* Sets the font size to 20px */
+}
+
+.pokemon-left, .pokemon-right {
+    width: 60%; /* Each column takes up 48% of the width */
+    padding: 10px;
+}
+
+.pokemon-left {
+    margin-right: 80px;
+}
+
+.pokemon-left h4, .pokemon-right h4 {
+    margin-top: 0;
+}
+
+/* Evolution Chain Layout */
+
+.evolution-chain {
+    display: flex;
+    flex-direction: row;     /* Align items horizontally */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;               /* Optional: space between sprites */
+}
+
+.evolution-chain li {
+    list-style: none;
+    margin: 0 10px;          /* Space between each sprite */
+    text-align: center;
+    display: flex;
+    flex-direction: column;  /* Stack sprite and name */
+    align-items: center;     /* Center content horizontally */
+}
+
+
+/* Evolution names */
+.evolution-name {
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Evolution sprites */
+.evolution-sprite {
+    width: 50px;  /* Adjust sprite size */
+    height: 50px;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+/* Align the evolution line starting at the "E" of Evolution */
+.pokemon-left h4 {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+
+.evolution-chain img {
+    width: 200px;  /* Adjust size as needed */
+    height: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+.evolution-chain span {
+    display: block;
+    margin-top: 5px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 5px 0;
+}
+
+.pokemon-right p {
+    margin: 5px 0;
+}
+
+.stat-bar {
+    margin-bottom: 15px;
+}
+
+.stat-bar label {
+    font-weight: bold;
+}
+
+.progress-bar-container {
+    position: relative;
+    width: 200px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #4caf50; /* Green bar */
+    border-radius: 10px 0 0 10px; /* Rounded left corners */
+}
+
+.stat-value {
+    position: absolute;
+    right: 10px;
+    top: 0;
+    color: black; /* Change the color to black */
+    font-weight: bold;
+}
+
+
+#pokemonCry {
+    display: none;
+}
+
 
 .pokemon-card {
     width: 200px;
@@ -193,11 +369,13 @@ button:hover {
 
 .pokemon-card-front {
     background-color: #f1f1f1;
+    color: #000000;
 }
 
 .pokemon-card-back {
     background-color: #e0e0e0;
     transform: rotateY(180deg);
+    color: #000000;
 }
 
 .pokemon-card:hover {
@@ -239,11 +417,26 @@ form {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
+    color: #000000;
+    border-color: #000000;
 }
+
 
 form label {
     font-weight: bold;
     margin-bottom: 8px;
+    border-color: #000000;
+}
+
+form.name{
+    border-color: #000000;
+}
+
+#formMessage{
+    color: #000000;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 form input, form textarea {
@@ -251,7 +444,11 @@ form input, form textarea {
     font-size: 1em;
     margin-bottom: 10px;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border-color: #000000;
+}
+
+input[name="name"]{
+    border-color: #000000;
 }
 
 form button {
@@ -262,19 +459,10 @@ form button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    border-color: #000000;
 }
+
 
 form button:hover {
     background-color: #ff9900;
-}
-
-/* Pokémon Details */
-#pokemon-details-gen1, #pokemon-details-gen2 {
-    margin-top: 20px;
-    text-align: center;
-}
-
-#pokemon-details-gen1 img, #pokemon-details-gen2 img {
-    width: 150px;
-    height: 150px;
 }

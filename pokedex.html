@@ -12,22 +12,34 @@
         <div class="logo-container" onclick="location.href=`index.html`">
             <img src="Pokéball.png" alt="Pokéball Logo" id="logo"></a>
         </div>
-        <a href="index.html">Home</a>
         <a href="about.html">About Me</a>
         <a href="pokedex.html">Pokédex</a>
         <a href="gallery.html">Gallery</a>
         <a href="contact.html">Contact Me</a>
+        <button class="theme-toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
     </nav>
 
     <div class="searchContainer">
         <h1>Pokémon Pokedex</h1>
-        <input type="text" id="pokemonSearch" placeholder="Search for Pokémon..." autocomplete="off">
-        <ul id="searchResults"></ul>
-        <button id="searchButton">Search</button>
-        <div id="pokemonGallery"></div>
-    </div>
+        <p>Search for your favorite Generation 1 or 2 Pokémon!</p>
     
-
+        <main>
+            <!-- Search Section -->
+            <section class="searchSection">
+                <input 
+                    type="text" 
+                    id="pokemonSearch" 
+                    placeholder="Search for a Pokemon..." 
+                    autocomplete="off" 
+                />
+                <button id="searchButton">Search</button>
+                <ul id="searchResults" class="suggestionsList"></ul>
+            </section>
     
+            <!-- Pokemon Details Section -->
+            <section id="pokemonGallery" class="detailsContainer"></section>
+            <div id="evolutionContainer"></div>
+        </main>
+        </div>
 </body>
 </html>
