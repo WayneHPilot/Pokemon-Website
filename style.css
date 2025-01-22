@@ -1,0 +1,280 @@
+/* ==========================
+   General Body Styling
+   ========================== */
+
+/* Sets global styles for the body */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #ff1a1a 0%, #ffffff 50%, #000000 100%); 
+    color: #333; /* Text color */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* ==========================
+   Navigation Bar Styling
+   ========================== */
+nav {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    border-bottom: 2px solid #333;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.2em;
+    transition: color 0.3s, transform 0.2s;
+}
+
+nav a:hover {
+    color: #ffcc00;
+    transform: scale(1.1);
+}
+
+nav .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 50px;  /* Explicit width */
+    height: 50px; /* Explicit height */
+    overflow: hidden; /* Prevent overflow */
+}
+
+#logo{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ==========================
+   Content Styling
+   ========================== */
+
+/* Search Bar Styling */
+.searchContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Adds space between the search bar and button */
+    margin-top: 20px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 1em;
+    width: 300px;  /* Adjusted width for better fit */
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #ff4747;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #cc3b3b;
+}
+/* ==========================
+   Autocomplete Suggestions
+   ========================== */
+
+/* Container for the search bar and suggestions */
+.searchContainer {
+    position: relative;
+    display: inline-block;
+}
+
+/* Autocomplete suggestions container */
+#searchResults {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;  /* Initially hidden */
+}
+
+/* Optional: Fade out effect when the list disappears */
+#searchResults.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Style for each suggestion item */
+#searchResults li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#searchResults li:hover {
+    background-color: #f0f0f0;
+}
+
+/* ==========================
+   Pokémon Gallery
+   ========================== */
+   .pokemonGallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px 40px; /* 20px vertical gap, 40px horizontal gap */
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.pokemon-card {
+    width: 200px;
+    height: 300px;
+    perspective: 1000px; /* Add depth perspective */
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer; /* Indicate interactivity */
+}
+
+.pokemon-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    z-index: 1; /* Ensure the inner card stays on top */
+}
+
+.pokemon-card.flipped .pokemon-card-inner {
+    transform: rotateY(180deg); /* Flip the card on hover */
+}
+
+.pokemon-card-front,
+.pokemon-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Prevent back side from showing through */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+    z-index: 2; /* Ensure both sides render correctly */
+}
+
+.pokemon-card-front {
+    background-color: #f1f1f1;
+}
+
+.pokemon-card-back {
+    background-color: #e0e0e0;
+    transform: rotateY(180deg);
+}
+
+.pokemon-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.pokemon-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.pokemon-card h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #333;
+}
+
+/* ==========================
+   Author Section Styling
+   ========================== */
+
+.author-img {
+    max-width: 150px;
+    border-radius: 50%;
+}
+
+/* ==========================
+   Contact Form Styling
+   ========================== */
+form {
+    background-color: #fdf9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+form input, form textarea {
+    padding: 10px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    background-color: #ffcc00;
+    color: #333;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #ff9900;
+}
+
+/* Pokémon Details */
+#pokemon-details-gen1, #pokemon-details-gen2 {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#pokemon-details-gen1 img, #pokemon-details-gen2 img {
+    width: 150px;
+    height: 150px;
+}
