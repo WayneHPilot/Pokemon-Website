@@ -400,10 +400,33 @@ ul li {
    Author Section Styling
    ========================== */
 
-.author-img {
-    max-width: 150px;
-    border-radius: 50%;
+.about-author {
+    display: flex; /* Makes the image and text appear in a horizontal row */
+    align-items: flex-start; /* Aligns items at the top */
+    gap: 20px; /* Adds space between the image and text */
 }
+
+
+#author-img {
+    height: 400px;
+    max-width: 400px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 0; /* Prevent the image from shrinking */
+}
+
+.author-text {
+    max-width: 600px; /* Prevents the text from stretching too far horizontally */
+    margin-top: 0;
+}
+
+.author-text p {
+    margin: 0 0 1em; /* Adds spacing between paragraphs */
+    line-height: 1.6; /* Increases readability */
+    font-size: 1em; /* Adjust font size */
+    text-align: left; /* Ensures text is left-aligned */
+}
+
 
 /* ==========================
    Contact Form Styling
@@ -437,6 +460,7 @@ form.name{
     margin-top: 20px;
     font-size: 20px;
     font-weight: bold;
+    display: none;
 }
 
 form input, form textarea {
