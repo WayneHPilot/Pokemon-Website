@@ -2,21 +2,22 @@
    General Body Styling
    ========================== */
 
-/* Sets global styles for the body */
+/* Base mobile-first styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(to bottom, #ff1a1a 0%, #ffffff 50%, #000000 100%); 
-    color: #333; /* Text color */
+    color: #333;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    overflow-x: hidden;
 }
 
-/* Default Style */
+/* Default Theme */
 body.default-theme {
     background: linear-gradient(to bottom, #ff1a1a 0%, #ffffff 50%, #000000 100%);
     color: #333;
@@ -57,29 +58,48 @@ body.grass-theme {
     background-color: #ff9900;
 }
 
+.mute-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5em;
+    text-align: center;
+  }
+  
+  .mute-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
 
 /* ==========================
    Navigation Bar Styling
    ========================== */
+
 nav {
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
-    padding: 10px 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     border-bottom: 2px solid #333;
+    gap: 15px;
 }
 
 nav a {
     color: #ffffff;
     text-decoration: none;
-    margin: 0 15px;
+    margin: 0 12px;
     font-size: 1.2em;
     transition: color 0.3s, transform 0.2s;
 }
@@ -94,34 +114,84 @@ nav .logo-container {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    width: 50px;  /* Explicit width */
-    height: 50px; /* Explicit height */
-    overflow: hidden; /* Prevent overflow */
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
 }
 
-#logo{
+#logo {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
 /* ==========================
+   Footer Styling
+   ========================== */
+
+   footer {
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px -3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column !important; /* Force elements to stack vertically */
+    align-items: center !important;    /* Ensure the text and icons are centered */
+    justify-content: center !important; /* Center them vertically */
+    gap: 15px;              /* Space between the text and icons */
+}
+
+.footer-container .social-text {
+    font-weight: bold;
+    margin-bottom: 0px !important;  /* Space between text and icons */
+    color: white;
+    font-size: 20px;
+}
+
+.footer-container .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 35px;              /* Space between icons */
+    margin-bottom: 5px;
+}
+
+.footer-container .social-icons a img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease;
+}
+
+.footer-container .social-icons a img:hover {
+    transform: scale(1.1);
+}
+
+
+
+/* ==========================
    Content Styling
    ========================== */
 
-/* Search Bar Styling */
 .searchContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Adds space between the search bar and button */
+    gap: 10px;
     margin-top: 20px;
 }
 
 input[type="text"] {
     padding: 10px;
     font-size: 1em;
-    width: 300px;  /* Adjusted width for better fit */
+    width: 300px;
     border: 2px solid #ccc;
     border-radius: 5px;
 }
@@ -139,17 +209,16 @@ button {
 button:hover {
     background-color: #cc3b3b;
 }
+
 /* ==========================
    Autocomplete Suggestions
    ========================== */
 
-/* Container for the search bar and suggestions */
 .searchContainer {
     position: relative;
     display: inline-block;
 }
 
-/* Autocomplete suggestions container */
 #searchResults {
     list-style-type: none;
     margin: 0;
@@ -162,17 +231,14 @@ button:hover {
     width: 100%;
     max-height: 200px;
     overflow-y: auto;
-    display: none;  /* Initially hidden */
+    display: none;
 }
 
-
-/* Optional: Fade out effect when the list disappears */
 #searchResults.fade-out {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-/* Style for each suggestion item */
 #searchResults li {
     padding: 10px;
     cursor: pointer;
@@ -185,13 +251,20 @@ button:hover {
 /* ==========================
    Pokémon Gallery
    ========================== */
+
 .pokemonGallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px 40px; /* 20px vertical gap, 40px horizontal gap */
+    grid-template-columns: repeat(4,1fr) ;
+    gap: 20px 40px;
     margin: 20px auto;
-    max-width: 1200px;
+    max-width: 1600px;
 }
+
+#pokemonGallery{
+    flex: 1;
+    padding-bottom: 80px;  /* Prevent content from being hidden */
+}
+
 
 .pokemon-sprites {
     display: flex;
@@ -224,37 +297,35 @@ button:hover {
 /* Evolution Chain Layout */
 
 .evolution-chain {
-    display: flex;
-    flex-direction: row;     /* Align items horizontally */
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3 items per row */
+    gap: 20px;  /* Space between sprites */
+    justify-items: center;  /* Centers sprites horizontally */
     align-items: center;
-    gap: 10px;               /* Optional: space between sprites */
+    margin-top: 20px;  /* Adds spacing from other content */
 }
 
 .evolution-chain li {
     list-style: none;
-    margin: 0 10px;          /* Space between each sprite */
-    text-align: center;
     display: flex;
     flex-direction: column;  /* Stack sprite and name */
-    align-items: center;     /* Center content horizontally */
+    align-items: center;     /* Center horizontally */
+    text-align: center;
 }
 
-
-/* Evolution names */
-.evolution-name {
-    font-size: 20px;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-/* Evolution sprites */
 .evolution-sprite {
-    width: 50px;  /* Adjust sprite size */
-    height: 50px;
-    margin: 0 auto;
+    width: 80px;  /* Adjust sprite size */
+    height: auto;
     object-fit: contain;
+    margin-bottom: 5px;  /* Space between sprite and name */
 }
+
+.evolution-name {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
 
 /* Align the evolution line starting at the "E" of Evolution */
 .pokemon-left h4 {
@@ -335,6 +406,8 @@ ul li {
     align-items: center;
     flex-direction: column;
     cursor: pointer; /* Indicate interactivity */
+    flex: 1;
+    padding-bottom: 35px;
 }
 
 .pokemon-card-inner {
@@ -489,4 +562,75 @@ form button {
 
 form button:hover {
     background-color: #ff9900;
+}
+
+/* ==========================
+   Media Queries for Desktop
+   ========================== */
+
+/* For larger screens (desktops and tablets in landscape mode) */
+@media (min-width: 768px) {
+    /* Update gallery layout */
+    .pokemonGallery {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 30px 50px;
+    }
+
+    /* Modify navigation layout for larger screens */
+    nav {
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+
+    nav .logo-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .footer-container {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+/* For very large screens (desktops, larger than 1200px) */
+@media (min-width: 1200px) {
+    .pokemonGallery {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 40px 60px;
+    }
+}
+
+/* ==========================
+   Additional Mobile Styles
+   ========================== */
+
+/* For very small devices or portrait orientation */
+@media (max-width: 480px) {
+    .searchContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input[type="text"] {
+        width: 100%;  /* Full width on small screens */
+    }
+
+    .theme-toggle-btn {
+        font-size: 0.9em;
+        padding: 8px 15px;
+    }
+
+    nav a {
+        font-size: 1em;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .social-icons {
+        gap: 20px;
+    }
 }

@@ -37,6 +37,7 @@ const fetchPokemonList = async (generation) => {
         const genRanges = {
             gen1: { limit: 151, offset: 0 },
             gen2: { limit: 100, offset: 151 },
+            gen3: { limit: 135, offset: 251 },
         };
         const { limit, offset } = genRanges[generation];
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
@@ -116,14 +117,63 @@ const createPokemonCard = (pokemon) => {
     return card;
 };
 
-// Display Pokémon details on the Pokédex page with Typing, Abilities, and Stats columns
+
+// Helper function to generate the evolution sprites
+const getEvolutionSprites = (chain) => {
+    const evolutions = [];
+
+    const traverseEvolutionChain = (node) => {
+        if (node) {
+            const pokemonId = node.species.url.split('/')[6];
+            evolutions.push(`
+                <li>
+                    <span class="evolution-name">${capitalizeFirstLetter(node.species.name)}</span>
+                    <img class="evolution-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" alt="${node.species.name} sprite">
+                </li>
+            `);
+
+            node.evolves_to.forEach(traverseEvolutionChain); // Handle multiple evolutions
+        }
+    };
+
+    traverseEvolutionChain(chain);
+    return `<ul class="evolution-chain">${evolutions.join('')}</ul>`;
+};
+
+// Helper function to create a stat bar
+const getStatBar = (statName, value) => {
+    const maxStatValue = 255;
+    const width = (value / maxStatValue) * 100;
+
+    return `
+        <div class="stat-bar">
+            <label for="${statName}">${statName}</label>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: 0%;"></div>
+                <span class="stat-value">${value}</span>
+            </div>
+        </div>
+    `;
+};
+
+// Animate the progress bars after the Pokémon data is displayed
+const animateStats = (stats) => {
+    stats.forEach((stat, index) => {
+        const progressBar = document.querySelectorAll('.progress-bar')[index];
+        const statValue = stat.base_stat;
+
+        progressBar.style.transition = 'width 2s ease-in-out';
+        progressBar.style.width = `${(statValue / 255) * 100}%`;
+    });
+};
+
+// Display Pokémon details
 const displayPokemonDetails = (data) => {
     const pokemonGallery = document.getElementById('pokemonGallery');
     if (!pokemonGallery) return;
 
     const { pokemonData, evolutionChainData } = data;
 
-    // Display Pokémon details (typing, abilities, evolution, sprites)
     pokemonGallery.innerHTML = `
         <h2>${capitalizeFirstLetter(pokemonData.name)}</h2>
         <div class="pokemon-sprites">
@@ -144,9 +194,7 @@ const displayPokemonDetails = (data) => {
                 </ul>
 
                 <h4>Evolution Line</h4>
-                <ul class="evolution-chain">
-                    ${getEvolutionSprites(evolutionChainData.chain)}
-                </ul>
+                ${getEvolutionSprites(evolutionChainData.chain)}
             </div>
 
             <div class="pokemon-right">
@@ -166,62 +214,14 @@ const displayPokemonDetails = (data) => {
         </audio>
     `;
 
-    // Adjust audio volume to 30%
     const audioElement = document.getElementById('pokemonCry');
     if (audioElement) {
-        audioElement.volume = 0.3; // Set volume to 30%
+        audioElement.volume = 0.3;
     }
 
-    // Animate progress bars after 2 seconds (timeout)
     setTimeout(() => {
         animateStats(pokemonData.stats);
     }, 500);
-};
-
-// Helper function to generate the evolution sprites
-const getEvolutionSprites = (chain) => {
-    let evolutions = [];
-    while (chain) {
-        // Fetching the evolution sprite using the Pokémon ID from the URL
-        const pokemonId = chain.species.url.split('/')[6];
-        evolutions.push(`
-            <li>
-                <span class="evolution-name">${capitalizeFirstLetter(chain.species.name)}</span>
-                <img class="evolution-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" alt="${chain.species.name} sprite">
-            </li>
-        `);
-        chain = chain.evolves_to[0]; // Get the next evolution if it exists
-    }
-    return `<ul class="evolution-chain">${evolutions.join('')}</ul>`;
-};
-
-// Helper function to create a stat bar
-const getStatBar = (statName, value) => {
-    // Max stat value is 255 (Pokémon stat limits)
-    const maxStatValue = 255;
-    const width = (value / maxStatValue) * 100; // Percentage width based on stat value
-
-    return `
-        <div class="stat-bar">
-            <label for="${statName}">${statName}</label>
-            <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0%;"></div> <!-- Initial width set to 0% -->
-                <span class="stat-value">${value}</span>
-            </div>
-        </div>
-    `;
-};
-
-// Animate the progress bars after the Pokémon data is displayed
-const animateStats = (stats) => {
-    stats.forEach((stat, index) => {
-        const progressBar = document.querySelectorAll('.progress-bar')[index];
-        const statValue = stat.base_stat;
-
-        // Animate the progress bar width from 0 to the actual stat value
-        progressBar.style.transition = 'width 2s ease-in-out';
-        progressBar.style.width = `${(statValue / 255) * 100}%`;
-    });
 };
 
 // Search and display Pokémon by name
@@ -237,6 +237,8 @@ const searchPokemon = async (searchInput) => {
     }
 };
 
+
+
 // Handle search input and display suggestions
 const handleSuggestionClick = async (name) => {
     const data = await fetchPokemonData(name);
@@ -251,7 +253,8 @@ const showSuggestions = async (input) => {
     try {
         const gen1Suggestions = await fetchPokemonList('gen1');
         const gen2Suggestions = await fetchPokemonList('gen2');
-        const suggestions = [...gen1Suggestions, ...gen2Suggestions];
+        const gen3Suggestions = await fetchPokemonList('gen3');  
+        const suggestions = [...gen1Suggestions, ...gen2Suggestions, ...gen3Suggestions];
 
         const inputValue = input.value.toLowerCase();
         const filteredSuggestions = suggestions.filter((s) =>
@@ -307,13 +310,18 @@ const displayGallery = async () => {
     try {
         const gen1List = await fetchPokemonList('gen1');
         const gen2List = await fetchPokemonList('gen2');
-        const allPokemon = [...gen1List, ...gen2List];
+        const gen3List = await fetchPokemonList('gen3');
+        const allPokemon = [...gen1List, ...gen2List, ...gen3List];
 
         const pokemonCards = await Promise.all(
             allPokemon.map(async (pokemon) => {
                 const data = await fetchPokemonDataForGallery(pokemon.name);
-                if (data) return createPokemonCard(data);
-                return null;
+                if (data) {
+                    return createPokemonCard(data);
+                } else {
+                    console.log('No data found for:', pokemon.name);  // Debug log
+                    return null;
+                }
             })
         );
 
@@ -407,4 +415,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 3000);
         });
     }
+});
+
+// Create the audio element
+const bgm = new Audio('PalletTown.mp3');
+
+// Set audio to loop
+bgm.loop = true;
+
+// Set the volume to 25% by default
+bgm.volume = 0.25;
+
+// Play the audio
+bgm.play();
+
+// Create the mute/unmute button functionality
+const muteBtn = document.getElementById('muteBtn');
+
+// Mute state tracker
+let isMuted = false;
+
+// Event listener for mute/unmute button
+muteBtn.addEventListener('click', () => {
+  if (isMuted) {
+    bgm.muted = false;
+    muteBtn.innerHTML = '&#128264;';  // Speaker icon
+  } else {
+    bgm.muted = true;
+    muteBtn.innerHTML = '&#128263;';  // Muted speaker (speaker with slash)
+  }
+  
+  // Toggle mute state
+  isMuted = !isMuted;
 });
