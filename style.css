@@ -18,31 +18,31 @@ body {
 }
 
 /* Default Theme */
-body.default-theme {
+body.defaultTheme {
     background: linear-gradient(to bottom, #ff1a1a 0%, #ffffff 50%, #000000 100%);
     color: #333;
 }
 
 /* Fire Theme */
-body.fire-theme {
+body.fireTheme {
     background: linear-gradient(to bottom, #ff7f7f, #ff1a1a);
     color: #fff;
 }
 
 /* Water Theme */
-body.water-theme {
+body.waterTheme {
     background: linear-gradient(to bottom, #87ceeb, #1e90ff);
     color: #fff;
 }
 
 /* Grass Theme */
-body.grass-theme {
+body.grassTheme {
     background: linear-gradient(to bottom, #98fb98, #228b22);
     color: #fff;
 }
 
 /* Button Styling */
-.theme-toggle-btn {
+.themeToggleBtn {
     background-color: #ffcc00;
     color: #333;
     padding: 10px 20px;
@@ -54,11 +54,11 @@ body.grass-theme {
     transition: background-color 0.3s ease;
 }
 
-.theme-toggle-btn:hover {
+.themeToggleBtn:hover {
     background-color: #ff9900;
 }
 
-.mute-btn {
+.muteBtn {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -70,12 +70,11 @@ body.grass-theme {
     cursor: pointer;
     font-size: 1.5em;
     text-align: center;
-  }
-  
-  .mute-btn:hover {
+}
+
+.muteBtn:hover {
     background-color: rgba(0, 0, 0, 0.8);
-  }
-  
+}
 
 /* ==========================
    Navigation Bar Styling
@@ -86,20 +85,20 @@ nav {
     color: #fff;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex;
     width: 100%;
+    height: 50px;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     border-bottom: 2px solid #333;
-    gap: 15px;
 }
 
 nav a {
     color: #ffffff;
     text-decoration: none;
-    margin: 0 12px;
+    margin: 0;
     font-size: 1.2em;
     transition: color 0.3s, transform 0.2s;
 }
@@ -109,7 +108,7 @@ nav a:hover {
     transform: scale(1.1);
 }
 
-nav .logo-container {
+nav .logoContainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,52 +128,52 @@ nav .logo-container {
    Footer Styling
    ========================== */
 
-   footer {
+footer {
     background: rgba(0, 0, 0, 0.8);
     position: fixed;
     bottom: 0;
     width: 100%;
+    height: 60px;
     text-align: center;
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0px -3px 5px rgba(0, 0, 0, 0.3);
+
 }
 
-.footer-container {
+.footerContainer {
     display: flex;
-    flex-direction: column !important; /* Force elements to stack vertically */
-    align-items: center !important;    /* Ensure the text and icons are centered */
-    justify-content: center !important; /* Center them vertically */
-    gap: 15px;              /* Space between the text and icons */
+    flex-direction: column !important; 
+    align-items: center !important;    
+    justify-content: center !important; 
+    gap: 15px;              
 }
 
-.footer-container .social-text {
+.footerContainer .socialText {
     font-weight: bold;
     margin-bottom: 0px !important;  /* Space between text and icons */
     color: white;
     font-size: 20px;
 }
 
-.footer-container .social-icons {
+.footerContainer .socialIcons {
     display: flex;
     justify-content: center;
     gap: 35px;              /* Space between icons */
     margin-bottom: 5px;
 }
 
-.footer-container .social-icons a img {
-    width: 40px;
-    height: 40px;
+.footerContainer .socialIcons a img {
+    width: 35px;
+    height: 35px;
     transition: transform 0.3s ease;
 }
 
-.footer-container .social-icons a img:hover {
+.footerContainer .socialIcons a img:hover {
     transform: scale(1.1);
 }
-
-
 
 /* ==========================
    Content Styling
@@ -234,7 +233,7 @@ button:hover {
     display: none;
 }
 
-#searchResults.fade-out {
+#searchResults.fadeOut {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -254,19 +253,18 @@ button:hover {
 
 .pokemonGallery {
     display: grid;
-    grid-template-columns: repeat(4,1fr) ;
+    grid-template-columns: repeat(4,1fr);
     gap: 20px 40px;
     margin: 20px auto;
     max-width: 1600px;
 }
 
-#pokemonGallery{
+#pokemonGallery {
     flex: 1;
     padding-bottom: 80px;  /* Prevent content from being hidden */
 }
 
-
-.pokemon-sprites {
+.pokemonSprites {
     display: flex;
     justify-content: left;
     margin-bottom: 10px;
@@ -275,28 +273,28 @@ button:hover {
     height: 150px;
 }
 
-.pokemon-details {
+.pokemonDetails {
     display: flex;
     justify-content: space-between;
     font-size: 20px;      /* Sets the font size to 20px */
 }
 
-.pokemon-left, .pokemon-right {
+.pokemonLeft, .pokemonRight {
     width: 60%; /* Each column takes up 48% of the width */
     padding: 10px;
 }
 
-.pokemon-left {
+.pokemonLeft {
     margin-right: 80px;
 }
 
-.pokemon-left h4, .pokemon-right h4 {
+.pokemonLeft h4, .pokemonRight h4 {
     margin-top: 0;
 }
 
 /* Evolution Chain Layout */
 
-.evolution-chain {
+.evolutionChain {
     display: grid;
     grid-template-columns: repeat(3, 1fr);  /* 3 items per row */
     gap: 20px;  /* Space between sprites */
@@ -305,7 +303,7 @@ button:hover {
     margin-top: 20px;  /* Adds spacing from other content */
 }
 
-.evolution-chain li {
+.evolutionChain li {
     list-style: none;
     display: flex;
     flex-direction: column;  /* Stack sprite and name */
@@ -313,35 +311,33 @@ button:hover {
     text-align: center;
 }
 
-.evolution-sprite {
+.evolutionSprite {
     width: 80px;  /* Adjust sprite size */
     height: auto;
     object-fit: contain;
     margin-bottom: 5px;  /* Space between sprite and name */
 }
 
-.evolution-name {
+.evolutionName {
     font-size: 16px;
     font-weight: bold;
     text-transform: capitalize;
 }
 
-
 /* Align the evolution line starting at the "E" of Evolution */
-.pokemon-left h4 {
+.pokemonLeft h4 {
     display: inline-block;
     margin-bottom: 10px;
 }
 
-
-.evolution-chain img {
+.evolutionChain img {
     width: 200px;  /* Adjust size as needed */
     height: 150px;
     display: block;
     margin: 0 auto;
 }
 
-.evolution-chain span {
+.evolutionChain span {
     display: block;
     margin-top: 5px;
 }
@@ -355,19 +351,19 @@ ul li {
     margin: 5px 0;
 }
 
-.pokemon-right p {
+.pokemonRight p {
     margin: 5px 0;
 }
 
-.stat-bar {
+.statBar {
     margin-bottom: 15px;
 }
 
-.stat-bar label {
+.statBar label {
     font-weight: bold;
 }
 
-.progress-bar-container {
+.progressBarContainer {
     position: relative;
     width: 200px;
     height: 20px;
@@ -376,13 +372,13 @@ ul li {
     overflow: hidden;
 }
 
-.progress-bar {
+.progressBar {
     height: 100%;
     background-color: #4caf50; /* Green bar */
     border-radius: 10px 0 0 10px; /* Rounded left corners */
 }
 
-.stat-value {
+.statValue {
     position: absolute;
     right: 10px;
     top: 0;
@@ -390,13 +386,11 @@ ul li {
     font-weight: bold;
 }
 
-
 #pokemonCry {
     display: none;
 }
 
-
-.pokemon-card {
+.pokemonCard {
     width: 200px;
     height: 300px;
     perspective: 1000px; /* Add depth perspective */
@@ -410,7 +404,7 @@ ul li {
     padding-bottom: 35px;
 }
 
-.pokemon-card-inner {
+.pokemonCardInner {
     position: relative;
     width: 100%;
     height: 100%;
@@ -419,12 +413,12 @@ ul li {
     z-index: 1; /* Ensure the inner card stays on top */
 }
 
-.pokemon-card.flipped .pokemon-card-inner {
+.pokemonCard.flipped .pokemonCardInner {
     transform: rotateY(180deg); /* Flip the card on hover */
 }
 
-.pokemon-card-front,
-.pokemon-card-back {
+.pokemonCardFront,
+.pokemonCardBack {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -440,30 +434,30 @@ ul li {
     z-index: 2; /* Ensure both sides render correctly */
 }
 
-.pokemon-card-front {
+.pokemonCardFront {
     background-color: #f1f1f1;
     color: #000000;
 }
 
-.pokemon-card-back {
+.pokemonCardBack {
     background-color: #e0e0e0;
     transform: rotateY(180deg);
     color: #000000;
 }
 
-.pokemon-card:hover {
+.pokemonCard:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.pokemon-card img {
+.pokemonCard img {
     width: 100px;
     height: 100px;
     object-fit: contain;
     margin-bottom: 10px;
 }
 
-.pokemon-card h3 {
+.pokemonCard h3 {
     font-size: 16px;
     margin: 0;
     color: #333;
@@ -473,14 +467,13 @@ ul li {
    Author Section Styling
    ========================== */
 
-.about-author {
+.aboutAuthor {
     display: flex; /* Makes the image and text appear in a horizontal row */
     align-items: flex-start; /* Aligns items at the top */
     gap: 20px; /* Adds space between the image and text */
 }
 
-
-#author-img {
+#authorImg {
     height: 400px;
     max-width: 400px;
     border-radius: 50%;
@@ -488,22 +481,22 @@ ul li {
     margin-top: 0; /* Prevent the image from shrinking */
 }
 
-.author-text {
+.authorText {
     max-width: 600px; /* Prevents the text from stretching too far horizontally */
     margin-top: 0;
 }
 
-.author-text p {
+.authorText p {
     margin: 0 0 1em; /* Adds spacing between paragraphs */
     line-height: 1.6; /* Increases readability */
     font-size: 1em; /* Adjust font size */
     text-align: left; /* Ensures text is left-aligned */
 }
 
-
 /* ==========================
    Contact Form Styling
    ========================== */
+
 form {
     background-color: #fdf9f9;
     padding: 20px;
@@ -517,18 +510,17 @@ form {
     border-color: #000000;
 }
 
-
 form label {
     font-weight: bold;
     margin-bottom: 8px;
     border-color: #000000;
 }
 
-form.name{
+form.name {
     border-color: #000000;
 }
 
-#formMessage{
+#formMessage {
     color: #000000;
     margin-top: 20px;
     font-size: 20px;
@@ -544,7 +536,7 @@ form input, form textarea {
     border-color: #000000;
 }
 
-input[name="name"]{
+input[name="name"] {
     border-color: #000000;
 }
 
@@ -558,7 +550,6 @@ form button {
     cursor: pointer;
     border-color: #000000;
 }
-
 
 form button:hover {
     background-color: #ff9900;
@@ -582,24 +573,20 @@ form button:hover {
         padding: 10px 20px;
     }
 
-    nav .logo-container {
-        width: 80px;
-        height: 80px;
-    }
-
-    .footer-container {
-        flex-direction: row;
-        gap: 20px;
+    /* Make footer responsive */
+    footer {
+        padding: 20px;
     }
 }
 
-/* For very large screens (desktops, larger than 1200px) */
 @media (min-width: 1200px) {
+    /* Further increase spacing on larger screens */
     .pokemonGallery {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 40px 60px;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 30px 70px;
     }
 }
+
 
 /* ==========================
    Additional Mobile Styles

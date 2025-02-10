@@ -1,5 +1,5 @@
 // Array of themes to toggle through
-const themes = ['default-theme', 'fire-theme', 'water-theme', 'grass-theme'];
+const themes = ['defaultTheme', 'fireTheme', 'waterTheme', 'grassTheme'];
 let currentThemeIndex = 0;
 
 // Function to toggle themes
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentThemeIndex = themes.indexOf(savedTheme);
     }
 });
-
 
 // Fetch Pokémon list by generation
 const fetchPokemonList = async (generation) => {
@@ -67,7 +66,7 @@ const fetchPokemonData = async (identifier) => {
         if (!evolutionChainResponse.ok) throw new Error('Failed to fetch evolution chain.');
         const evolutionChainData = await evolutionChainResponse.json();
 
-        // Add a flavor_text field to the Pokémon data
+        // Add a flavorText field to the Pokémon data
         pokemonData.species.flavorText = speciesData.flavor_text_entries
             .find((entry) => entry.language.name === 'en')
             .flavor_text.replace(/\s+/g, ' ') // Remove newlines and extra spaces
@@ -83,14 +82,14 @@ const fetchPokemonData = async (identifier) => {
 // Create a flipping Pokémon card
 const createPokemonCard = (pokemon) => {
     const card = document.createElement('div');
-    card.classList.add('pokemon-card');
+    card.classList.add('pokemonCard');
 
     const cardInner = document.createElement('div');
-    cardInner.classList.add('pokemon-card-inner');
+    cardInner.classList.add('pokemonCardInner');
 
     // Front of the card
     const cardFront = document.createElement('div');
-    cardFront.classList.add('pokemon-card-front');
+    cardFront.classList.add('pokemonCardFront');
     cardFront.innerHTML = `
         <h3>${capitalizeFirstLetter(pokemon.name)}</h3>
         <img src="${pokemon.sprite}" alt="${pokemon.name}">
@@ -98,7 +97,7 @@ const createPokemonCard = (pokemon) => {
 
     // Back of the card (Pokédex entry)
     const cardBack = document.createElement('div');
-    cardBack.classList.add('pokemon-card-back');
+    cardBack.classList.add('pokemonCardBack');
     cardBack.innerHTML = `
         <h3>${capitalizeFirstLetter(pokemon.name)}</h3>
         <p>${pokemon.flavorText}</p>
@@ -117,7 +116,6 @@ const createPokemonCard = (pokemon) => {
     return card;
 };
 
-
 // Helper function to generate the evolution sprites
 const getEvolutionSprites = (chain) => {
     const evolutions = [];
@@ -127,8 +125,8 @@ const getEvolutionSprites = (chain) => {
             const pokemonId = node.species.url.split('/')[6];
             evolutions.push(`
                 <li>
-                    <span class="evolution-name">${capitalizeFirstLetter(node.species.name)}</span>
-                    <img class="evolution-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" alt="${node.species.name} sprite">
+                    <span class="evolutionName">${capitalizeFirstLetter(node.species.name)}</span>
+                    <img class="evolutionSprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png" alt="${node.species.name} sprite">
                 </li>
             `);
 
@@ -137,7 +135,7 @@ const getEvolutionSprites = (chain) => {
     };
 
     traverseEvolutionChain(chain);
-    return `<ul class="evolution-chain">${evolutions.join('')}</ul>`;
+    return `<ul class="evolutionChain">${evolutions.join('')}</ul>`;
 };
 
 // Helper function to create a stat bar
@@ -146,11 +144,11 @@ const getStatBar = (statName, value) => {
     const width = (value / maxStatValue) * 100;
 
     return `
-        <div class="stat-bar">
+        <div class="statBar">
             <label for="${statName}">${statName}</label>
-            <div class="progress-bar-container">
-                <div class="progress-bar" style="width: 0%;"></div>
-                <span class="stat-value">${value}</span>
+            <div class="progressBarContainer">
+                <div class="progressBar" style="width: 0%;"></div>
+                <span class="statValue">${value}</span>
             </div>
         </div>
     `;
@@ -159,7 +157,7 @@ const getStatBar = (statName, value) => {
 // Animate the progress bars after the Pokémon data is displayed
 const animateStats = (stats) => {
     stats.forEach((stat, index) => {
-        const progressBar = document.querySelectorAll('.progress-bar')[index];
+        const progressBar = document.querySelectorAll('.progressBar')[index];
         const statValue = stat.base_stat;
 
         progressBar.style.transition = 'width 2s ease-in-out';
@@ -176,13 +174,13 @@ const displayPokemonDetails = (data) => {
 
     pokemonGallery.innerHTML = `
         <h2>${capitalizeFirstLetter(pokemonData.name)}</h2>
-        <div class="pokemon-sprites">
+        <div class="pokemonSprites">
             <img src="${pokemonData.sprites.front_default}" alt="${pokemonData.name} Sprite">
             <img src="${pokemonData.sprites.front_shiny}" alt="${pokemonData.name} Shiny Sprite">
         </div>
 
-        <div class="pokemon-details">
-            <div class="pokemon-left">
+        <div class="pokemonDetails">
+            <div class="pokemonLeft">
                 <h4>Typing</h4>
                 <ul>
                     ${pokemonData.types.map((type) => `<li>${capitalizeFirstLetter(type.type.name)}</li>`).join('')}
@@ -197,13 +195,13 @@ const displayPokemonDetails = (data) => {
                 ${getEvolutionSprites(evolutionChainData.chain)}
             </div>
 
-            <div class="pokemon-right">
+            <div class="pokemonRight">
                 <h4>Stats</h4>
                 ${getStatBar("HP", pokemonData.stats[0].base_stat)}
                 ${getStatBar("Attack", pokemonData.stats[1].base_stat)}
                 ${getStatBar("Defense", pokemonData.stats[2].base_stat)}
-                ${getStatBar("Special Attack", pokemonData.stats[3].base_stat)}
-                ${getStatBar("Special Defense", pokemonData.stats[4].base_stat)}
+                ${getStatBar("SpecialAttack", pokemonData.stats[3].base_stat)}
+                ${getStatBar("SpecialDefense", pokemonData.stats[4].base_stat)}
                 ${getStatBar("Speed", pokemonData.stats[5].base_stat)}
             </div>
         </div>
@@ -236,8 +234,6 @@ const searchPokemon = async (searchInput) => {
         alert('Pokémon not found. Please try again.');
     }
 };
-
-
 
 // Handle search input and display suggestions
 const handleSuggestionClick = async (name) => {
@@ -382,7 +378,7 @@ const capitalizeFirstLetter = (string) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('contact-form');
+    const form = document.getElementById('contactForm');
     const formMessage = document.getElementById('formMessage');
 
     if (form) {
