@@ -1,54 +1,65 @@
 // ===============================
 // Audio functionality
 // ===============================
-const muteBtn = document.getElementById('muteBtn');
 const bgm = new Audio('PalletTown.mp3');
 bgm.loop = true;
 bgm.volume = 0.25;
 
-// Retrieve mute state from localStorage
 let isMuted = localStorage.getItem('isMuted') === 'true';
+let lastPlayedTime = localStorage.getItem('lastPlayedTime') || 0;
 
-// Function to update the mute button icon and apply mute state
-const updateMuteState = () => {
-	muteBtn.innerHTML = isMuted
-		? '<i class="fa-solid fa-volume-xmark"></i>'  // Muted icon
-		: '<i class="fa-solid fa-volume-high"></i>';  // Unmuted icon
+bgm.currentTime = lastPlayedTime; // Set the current time when the page loads
+bgm.muted = isMuted;
 
-	bgm.muted = isMuted;
-	muteBtn.classList.toggle('muted', isMuted);
-};
-
-// Toggle mute when clicking the button
-muteBtn.addEventListener('click', () => {
-	isMuted = !isMuted;
-	localStorage.setItem('isMuted', isMuted);
-	updateMuteState();
-});
-
-// Function to try playing music
+// Play music when allowed
 const playMusic = () => {
-	bgm.play().catch((error) => {
-		console.warn('Autoplay blocked:', error);
-		document.addEventListener('click', userInteractionHandler, { once: true });
+	bgm.play().catch(() => {
+		// Listen for the first user interaction to play music
+		document.addEventListener('click', () => bgm.play(), { once: true });
 	});
 };
 
-// Handle user interaction to enable playback if autoplay is blocked
-const userInteractionHandler = () => {
-	bgm.play();
-	document.removeEventListener('click', userInteractionHandler);
+// Update mute button state and audio state
+const updateMuteState = () => {
+	const muteBtn = document.getElementById('muteBtn');
+	if (muteBtn) {
+		muteBtn.innerHTML = isMuted
+			? '<i class="fa-solid fa-volume-xmark"></i>'  // Muted icon
+			: '<i class="fa-solid fa-volume-high"></i>';  // Unmuted icon
+	}
+
+	bgm.muted = isMuted;
 };
 
-// Ensure settings persist across pages
-window.addEventListener('load', () => {
+// Handle mute toggle
+const toggleMute = () => {
+	isMuted = !isMuted;
+	bgm.muted = isMuted;
+	localStorage.setItem('isMuted', isMuted);
 	updateMuteState();
+};
+
+// Store the time when the user leaves the page
+const savePlayTime = () => {
+	localStorage.setItem('lastPlayedTime', bgm.currentTime);
+};
+
+// Ensure music plays and settings persist across pages
+window.addEventListener('load', () => {
 	playMusic();
+	updateMuteState();
 });
 
+// When the user navigates away, store the current time
+window.addEventListener('beforeunload', () => {
+	savePlayTime();
+});
 
-
-
+// Toggle mute when button is clicked
+const muteBtn = document.getElementById('muteBtn');
+if (muteBtn) {
+	muteBtn.addEventListener('click', toggleMute);
+}
 
 // ===============================
 // Theme toggling functionality
