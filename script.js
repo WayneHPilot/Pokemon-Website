@@ -1,8 +1,61 @@
-// Array of themes to toggle through
+// ===============================
+// Audio functionality
+// ===============================
+const muteBtn = document.getElementById('muteBtn');
+const bgm = new Audio('PalletTown.mp3');
+bgm.loop = true;
+bgm.volume = 0.25;
+
+// Retrieve mute state from localStorage
+let isMuted = localStorage.getItem('isMuted') === 'true';
+
+// Function to update the mute button icon and apply mute state
+const updateMuteState = () => {
+	muteBtn.innerHTML = isMuted
+		? '<i class="fa-solid fa-volume-xmark"></i>'  // Muted icon
+		: '<i class="fa-solid fa-volume-high"></i>';  // Unmuted icon
+
+	bgm.muted = isMuted;
+	muteBtn.classList.toggle('muted', isMuted);
+};
+
+// Toggle mute when clicking the button
+muteBtn.addEventListener('click', () => {
+	isMuted = !isMuted;
+	localStorage.setItem('isMuted', isMuted);
+	updateMuteState();
+});
+
+// Function to try playing music
+const playMusic = () => {
+	bgm.play().catch((error) => {
+		console.warn('Autoplay blocked:', error);
+		document.addEventListener('click', userInteractionHandler, { once: true });
+	});
+};
+
+// Handle user interaction to enable playback if autoplay is blocked
+const userInteractionHandler = () => {
+	bgm.play();
+	document.removeEventListener('click', userInteractionHandler);
+};
+
+// Ensure settings persist across pages
+window.addEventListener('load', () => {
+	updateMuteState();
+	playMusic();
+});
+
+
+
+
+
+// ===============================
+// Theme toggling functionality
+// ===============================
 const themes = ['defaultTheme', 'fireTheme', 'waterTheme', 'grassTheme'];
 let currentThemeIndex = 0;
 
-// Function to toggle themes
 function toggleTheme() {
     console.log('toggleTheme function triggered'); // Debugging log
     const body = document.body;
@@ -20,7 +73,9 @@ function toggleTheme() {
     localStorage.setItem('selectedTheme', themes[currentThemeIndex]);
 }
 
+// ===============================
 // Apply the saved theme when the page loads
+// ===============================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded and parsed'); // Debugging log
     const savedTheme = localStorage.getItem('selectedTheme');
@@ -30,7 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// ===============================
+// Helper function to capitalize the first letter
+// ===============================
+const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+// ===============================
 // Fetch Pokémon list by generation
+// ===============================
 const fetchPokemonList = async (generation) => {
     try {
         const genRanges = {
@@ -49,7 +113,9 @@ const fetchPokemonList = async (generation) => {
     }
 };
 
-// Fetch detailed Pokémon data (including abilities, types, and evolution chain)
+// ===============================
+// Fetch detailed Pokémon data
+// ===============================
 const fetchPokemonData = async (identifier) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${identifier.toLowerCase()}`);
@@ -66,7 +132,6 @@ const fetchPokemonData = async (identifier) => {
         if (!evolutionChainResponse.ok) throw new Error('Failed to fetch evolution chain.');
         const evolutionChainData = await evolutionChainResponse.json();
 
-        // Add a flavorText field to the Pokémon data
         pokemonData.species.flavorText = speciesData.flavor_text_entries
             .find((entry) => entry.language.name === 'en')
             .flavor_text.replace(/\s+/g, ' ') // Remove newlines and extra spaces
@@ -79,7 +144,9 @@ const fetchPokemonData = async (identifier) => {
     }
 };
 
+// ===============================
 // Create a flipping Pokémon card
+// ===============================
 const createPokemonCard = (pokemon) => {
     const card = document.createElement('div');
     card.classList.add('pokemonCard');
@@ -116,7 +183,9 @@ const createPokemonCard = (pokemon) => {
     return card;
 };
 
-// Helper function to generate the evolution sprites
+// ===============================
+// Helper function to generate evolution sprites
+// ===============================
 const getEvolutionSprites = (chain) => {
     const evolutions = [];
 
@@ -138,7 +207,9 @@ const getEvolutionSprites = (chain) => {
     return `<ul class="evolutionChain">${evolutions.join('')}</ul>`;
 };
 
+// ===============================
 // Helper function to create a stat bar
+// ===============================
 const getStatBar = (statName, value) => {
     const maxStatValue = 255;
     const width = (value / maxStatValue) * 100;
@@ -154,7 +225,9 @@ const getStatBar = (statName, value) => {
     `;
 };
 
+// ===============================
 // Animate the progress bars after the Pokémon data is displayed
+// ===============================
 const animateStats = (stats) => {
     stats.forEach((stat, index) => {
         const progressBar = document.querySelectorAll('.progressBar')[index];
@@ -165,7 +238,9 @@ const animateStats = (stats) => {
     });
 };
 
+// ===============================
 // Display Pokémon details
+// ===============================
 const displayPokemonDetails = (data) => {
     const pokemonGallery = document.getElementById('pokemonGallery');
     if (!pokemonGallery) return;
@@ -222,7 +297,10 @@ const displayPokemonDetails = (data) => {
     }, 500);
 };
 
+
+// ===============================
 // Search and display Pokémon by name
+// ===============================
 const searchPokemon = async (searchInput) => {
     const pokemonName = searchInput.value.toLowerCase().trim();
     if (!pokemonName) return;
@@ -235,7 +313,9 @@ const searchPokemon = async (searchInput) => {
     }
 };
 
+// ===============================
 // Handle search input and display suggestions
+// ===============================
 const handleSuggestionClick = async (name) => {
     const data = await fetchPokemonData(name);
     if (data) displayPokemonDetails(data);
@@ -244,12 +324,14 @@ const handleSuggestionClick = async (name) => {
     document.getElementById('searchResults').style.display = 'none';
 };
 
+// ===============================
 // Display Pokémon suggestions based on input
+// ===============================
 const showSuggestions = async (input) => {
     try {
         const gen1Suggestions = await fetchPokemonList('gen1');
         const gen2Suggestions = await fetchPokemonList('gen2');
-        const gen3Suggestions = await fetchPokemonList('gen3');  
+        const gen3Suggestions = await fetchPokemonList('gen3');
         const suggestions = [...gen1Suggestions, ...gen2Suggestions, ...gen3Suggestions];
 
         const inputValue = input.value.toLowerCase();
@@ -282,7 +364,9 @@ const showSuggestions = async (input) => {
     }
 };
 
+// ===============================
 // Initialize search functionality for Pokédex
+// ===============================
 const initSearch = () => {
     const searchInput = document.getElementById('pokemonSearch');
     const searchButton = document.getElementById('searchButton');
@@ -298,7 +382,9 @@ const initSearch = () => {
     }
 };
 
+// ===============================
 // Initialize gallery page functionality
+// ===============================
 const displayGallery = async () => {
     const gallery = document.getElementById('pokemonGallery');
     gallery.innerHTML = '<p>Loading Pokémon...</p>';
@@ -336,7 +422,9 @@ const displayGallery = async () => {
     }
 };
 
+// ===============================
 // Fetch detailed data for gallery page
+// ===============================
 const fetchPokemonDataForGallery = async (identifier) => {
     try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${identifier.toLowerCase()}`);
@@ -363,7 +451,9 @@ const fetchPokemonDataForGallery = async (identifier) => {
     }
 };
 
+// ===============================
 // Initialize functionality based on the page
+// ===============================
 document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('gallery.html')) {
         displayGallery();
@@ -372,75 +462,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Helper function to capitalize the first letter
-const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-};
 
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('contactForm');
-    const formMessage = document.getElementById('formMessage');
-
-    if (form) {
-        form.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent the default form submission behavior
-
-            // Retrieve form values
-            const name = form.elements['name'].value.trim();
-            const email = form.elements['email'].value.trim();
-            const message = form.elements['message'].value.trim();
-
-            // Validate the inputs
-            if (!name || !email || !message) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            // Log the form data (simulating form submission)
-            console.log('Form submitted!', { name, email, message });
-
-            // Clear the form
-            form.reset();
-
-            // Show success message
-            formMessage.style.display = 'block';
-
-            // Hide the success message after 3 seconds
-            setTimeout(() => {
-                formMessage.style.display = 'none';
-            }, 3000);
-        });
-    }
-});
-
-// Create the audio element
-const bgm = new Audio('PalletTown.mp3');
-
-// Set audio to loop
-bgm.loop = true;
-
-// Set the volume to 25% by default
-bgm.volume = 0.25;
-
-// Play the audio
-bgm.play();
-
-// Create the mute/unmute button functionality
-const muteBtn = document.getElementById('muteBtn');
-
-// Mute state tracker
-let isMuted = false;
-
-// Event listener for mute/unmute button
-muteBtn.addEventListener('click', () => {
-  if (isMuted) {
-    bgm.muted = false;
-    muteBtn.innerHTML = '&#128264;';  // Speaker icon
-  } else {
-    bgm.muted = true;
-    muteBtn.innerHTML = '&#128263;';  // Muted speaker (speaker with slash)
-  }
-  
-  // Toggle mute state
-  isMuted = !isMuted;
-});

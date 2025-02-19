@@ -15,6 +15,7 @@ body {
     align-items: center;
     justify-content: flex-start;
     overflow-x: hidden;
+    font-weight: bold;
 }
 
 /* Default Theme */
@@ -58,23 +59,45 @@ body.grassTheme {
     background-color: #ff9900;
 }
 
+/* Mute Button Styling */
 .muteBtn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.5em;
-    text-align: center;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 50px;
+	height: 50px;
+	background-color: rgba(0, 0, 0, 0.85);
+	color: white;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	font-size: 1.5em;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Hover effect */
 .muteBtn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(255, 255, 255, 0.2);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+	transform: scale(1.1);
 }
+
+/* Active (clicked) effect */
+.muteBtn:active {
+	transform: scale(0.95);
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Optional: Add a subtle glow when active */
+.muteBtn.glowing {
+	box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
 
 /* ==========================
    Navigation Bar Styling
